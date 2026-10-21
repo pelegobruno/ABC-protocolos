@@ -1,0 +1,12 @@
+{
+  "name": "sistema-abc-psicologia",
+  "version": "1.0.0",
+  "description": "Sistema de Análise Funcional ABC e Evolução Clínica",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

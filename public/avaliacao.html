@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Observacional e Triagem Clínica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <!-- Cabeçalho Institucional com Navegação Conectada -->
+    <header class="bg-teal-900 text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div>
+                <h1 class="text-xl font-bold">AVALIAÇÃO OBSERVACIONAL E TRIAGEM CLÍNICA</h1>
+                <p class="text-teal-200 text-xs">Mapeamento Inicial, Linha de Base e Perfil de Desenvolvimento</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="pei.html" class="bg-teal-800 hover:bg-teal-700 text-white px-3 py-1.5 rounded text-xs font-medium border border-teal-600 transition-colors">
+                    Plano de Ensino (PEI)
+                </a>
+                <a href="index.html" class="bg-teal-800 hover:bg-teal-700 text-white px-3 py-1.5 rounded text-xs font-medium border border-teal-600 transition-colors">
+                    Acompanhamento ABC
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 space-y-6">
+
+        <!-- MÓDULO DE SELEÇÃO E GERENCIAMENTO DE AVALIAÇÕES -->
+        <section class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="w-full md:w-1/2">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Buscar Avaliação Registrada</label>
+                    <select id="selectAvaliacao" onchange="carregarAvaliacaoSelecionada()" class="w-full border rounded-lg p-2 text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-600">
+                        <option value="">-- Selecione um paciente avaliado --</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="limparFormAvaliacao()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors">
+                        + Nova Avaliação
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 1: DADOS IDENTIFICAÇÃO E CÁLCULO DE IDADE -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">1. Identificação do Paciente e Triagem</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nome do Paciente</label>
+                    <input type="text" id="avalPaciente" placeholder="Nome completo" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Data de Nascimento</label>
+                    <input type="date" id="avalDataNasc" onchange="calcularIdadeExata()" class="w-full border rounded-lg p-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Idade Calculada</label>
+                    <input type="text" id="avalIdade" placeholder="Ex: 36 anos" readonly class="w-full border rounded-lg p-2 text-sm bg-slate-100 font-bold text-teal-900">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Data da Avaliação</label>
+                    <input type="date" id="avalData" class="w-full border rounded-lg p-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Responsáveis Presentes</label>
+                    <input type="text" id="avalResponsaveis" placeholder="Mãe, Pai, Outros" class="w-full border rounded-lg p-2 text-sm">
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: AVALIAÇÃO AMPLA (SELEÇÕES RÁPIDAS COM OPERANTES E BARREIRAS ABA) -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">2. Mapeamento do Desenvolvimento, Operantes e Barreiras</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Comunicação e Operantes Verbais -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                    <span class="block text-xs font-bold uppercase text-teal-900 border-b pb-1">Comunicação e Operantes Verbais</span>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Não verbal"> Não verbal</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Mando Fraco ou Ausente (Apenas puxa a mão/gestos)"> Mando Fraco ou Ausente</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Tato, Ecoico e Intraverbal Ausentes"> Tato/Ecoico/Intraverbal Ausentes</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Responder de Ouvinte Baixo (Dificuldade em seguir instruções)"> Responder de Ouvinte Baixo</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Ecolalia imediata / tardia"> Ecolalia imediata / tardia</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkComun" value="Comunicação Alternativa (PECS/Cartões)"> Comunicação Alternativa (PECS)</label>
+                </div>
+
+                <!-- Interação Social, Controle e Motivação -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                    <span class="block text-xs font-bold uppercase text-teal-900 border-b pb-1">Controle Instrucional e Social</span>
+                    <label class="block text-xs"><input type="checkbox" class="chkSoc" value="Controle Instrucional Fraco (Fuga: desvia olhar, virar de costas, debaixo da mesa)"> Controle Instrucional Fraco</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSoc" value="Custo da Resposta Enfraquecido (Perde o interesse ao exigir resposta)"> Custo da Resposta Enfraquecido</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSoc" value="Habilidades Sociais Ausentes (Evita crianças/não responde a pares)"> Habilidades Sociais Ausentes</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSoc" value="Imitação Motora Fraca (Depende de dica física/gestual)"> Imitação Motora Fraca</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSoc" value="Pouco/nenhum contato visual"> Pouco contato visual</label>
+                </div>
+
+                <!-- Perfil Sensorial e Dependência de Dicas -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                    <span class="block text-xs font-bold uppercase text-teal-900 border-b pb-1">Perfil Sensorial e Suportes</span>
+                    <label class="block text-xs"><input type="checkbox" class="chkSens" value="Depende de Dicas e Reforçadores Frequentes (MO)"> Depende de Dicas e Reforçadores</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSens" value="Hipersensibilidade auditiva (tapa os ouvidos)"> Hipersensibilidade auditiva</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSens" value="Defensividade tátil (texturas/etiquetas)"> Defensividade tátil</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSens" value="Busca por movimento vestibular (Pacing/Girar)"> Busca vestibular / Pacing</label>
+                    <label class="block text-xs"><input type="checkbox" class="chkSens" value="Stereotypies motoras (Flapping)"> Flapping de mãos/braços</label>
+                </div>
+            </div>
+
+            <!-- Adaptabilidade ao Setting -->
+            <div class="border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <span class="block text-xs font-semibold uppercase text-slate-600 mb-2">Comportamento na Entrada / Separação dos Pais</span>
+                    <label class="block text-xs mb-1"><input type="radio" name="radEntrada" value="Entrada tranquila e exploração espontânea"> Entrada tranquila e exploração espontânea</label>
+                    <label class="block text-xs mb-1"><input type="radio" name="radEntrada" value="Hesitação inicial, regulado com suporte"> Hesitação inicial, regulado com suporte</label>
+                    <label class="block text-xs mb-1"><input type="radio" name="radEntrada" value="Choro / Ansiedade de separação moderada"> Choro / Ansiedade de separação</label>
+                    <label class="block text-xs mb-1"><input type="radio" name="radEntrada" value="Recusa intensa / Desregulação na porta"> Recusa intensa / Desregulação na porta</label>
+                </div>
+                <div>
+                    <span class="block text-xs font-semibold uppercase text-slate-600 mb-2">Resposta ao Direcionamento e Limites</span>
+                    <label class="block text-xs mb-1"><input type="radio" name="radLimites" value="Aceita instrução direta com facilidade"> Aceita instrução direta com facilidade</label>
+                    <label class="block text-xs mb-1"><input type="radio" name="radLimites" value="Necessita de suporte visual / Demonstração"> Necessita de suporte visual</label>
+                    <label class="block text-xs mb-1"><input type="radio" name="radLimites" value="Fuga/Esquiva diante de demandas verbais"> Fuga/Esquiva diante de demandas</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: SÍNTESE E REGISTRO HISTÓRICO -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">3. Observações Complementares e Diretrizes do Plano</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Estratégias de Regulagem com Maior Resposta</label>
+                    <textarea id="avalEstrategias" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Redução de tom de voz, paralelismo no brincar, apoio com mordedor..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Impressão Clínica e Recomendações</label>
+                    <textarea id="avalImpressao" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Síntese da avaliação e encaminhamentos prioritários..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="salvarAvaliacao()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-colors">
+                    Salvar Avaliação
+                </button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: HISTÓRICO DE AVALIAÇÕES REALIZADAS -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">4. Histórico de Avaliações Registradas</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700">
+                            <th class="p-2 border">Data</th>
+                            <th class="p-2 border">Paciente</th>
+                            <th class="p-2 border">Idade</th>
+                            <th class="p-2 border">Adaptação</th>
+                            <th class="p-2 border text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaHistoricoAvaliacoes">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="script-avaliacao.js"></script>
+</body>
+</html>

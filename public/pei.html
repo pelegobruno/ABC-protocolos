@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Ensino Individualizado (PEI) - Psicologia & ABA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <!-- Cabeçalho Institucional Sóbrio -->
+    <header class="bg-teal-900 text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div>
+                <h1 class="text-xl font-bold">PLANO DE ENSINO INDIVIDUALIZADO (PEI)</h1>
+                <p class="text-teal-200 text-xs">Planejamento Terapêutico, Metas e Hierarquia de Dicas</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="avaliacao.html" class="bg-teal-800 hover:bg-teal-700 text-white px-3 py-1.5 rounded text-xs font-medium border border-teal-600 transition-colors">
+                    Avaliação Inicial
+                </a>
+                <a href="index.html" class="bg-teal-800 hover:bg-teal-700 text-white px-3 py-1.5 rounded text-xs font-medium border border-teal-600 transition-colors">
+                    Acompanhamento ABC
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 space-y-6">
+
+        <!-- MÓDULO DE SELEÇÃO E BUSCA DE PEI -->
+        <section class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="w-full md:w-1/2">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Buscar PEI Cadastrado</label>
+                    <select id="selectPei" onchange="carregarPeiSelecionado()" class="w-full border rounded-lg p-2 text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-600">
+                        <option value="">-- Selecione um PEI ativo --</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="limparFormPei()" class="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors">
+                        + Novo PEI
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 1: DADOS E BARREIRAS IDENTIFICADAS -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">1. Identificação do Paciente e Mapeamento de Barreiras</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nome do Paciente</label>
+                    <input type="text" id="peiPaciente" placeholder="Nome do paciente" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Data de Início do PEI</label>
+                    <input type="date" id="peiDataInicio" class="w-full border rounded-lg p-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Previsão de Reavaliação</label>
+                    <input type="date" id="peiDataReaval" class="w-full border rounded-lg p-2 text-sm">
+                </div>
+            </div>
+
+            <!-- Barreiras Comportamentais Selecionáveis -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                <span class="block text-xs font-bold uppercase text-teal-900 border-b pb-1">Barreiras de Aprendizagem a Reduzir</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Controle Instrucional Fraco (Fuga/Esquiva)"> Controle Instrucional Fraco</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Mando Fraco ou Ausente"> Mando Fraco ou Ausente</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Tato, Ecoico e Intraverbal Ausentes"> Tato/Ecoico/Intraverbal Ausentes</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Responder de Ouvinte Baixo"> Responder de Ouvinte Baixo</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Custo da Resposta Enfraquecido"> Custo da Resposta Enfraquecido</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Imitação Motora Fraca (Depende de Dica)"> Imitação Motora Fraca</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Habilidades Sociais Ausentes"> Habilidades Sociais Ausentes</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Dependência Elevada de Dicas Físicas"> Dependência de Dicas Físicas</label>
+                    <label class="block text-xs"><input type="checkbox" class="barreiraPei" value="Necessidade Frequente de Operação Motivacional (MO)"> Dependência de Reforçadores</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: DEFINIÇÃO DE METAS E PROGRAMAS DO PEI -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">2. Definição de Metas Terapêuticas</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 bg-slate-50 p-4 rounded-lg border">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Área / Operante</label>
+                    <select id="metaArea" class="w-full border rounded p-1.5 text-sm">
+                        <option value="Mando (Comunicação)">Mando (Comunicação)</option>
+                        <option value="Controle Instrucional">Controle Instrucional</option>
+                        <option value="Responder de Ouvinte">Responder de Ouvinte</option>
+                        <option value="Tato / Nomeação">Tato / Nomeação</option>
+                        <option value="Imitação / Ecoico">Imitação / Ecoico</option>
+                        <option value="Habilidades Sociais">Habilidades Sociais</option>
+                        <option value="Autorregulação Sensorial">Autorregulação Sensorial</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Descrição do Objetivo / Meta</label>
+                    <input type="text" id="metaDescricao" placeholder="Ex: Solicitar item desejado apontando ou via PECS" class="w-full border rounded p-1.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nível de Suporte Inicial</label>
+                    <select id="metaDica" class="w-full border rounded p-1.5 text-sm">
+                        <option value="Dica Física Total">Dica Física Total</option>
+                        <option value="Dica Física Parcial">Dica Física Parcial</option>
+                        <option value="Dica Gestual / Modelagem">Dica Gestual / Modelagem</option>
+                        <option value="Dica Verbal">Dica Verbal</option>
+                        <option value="Independente">Independente</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Prazo Esperado</label>
+                    <select id="metaPrazo" class="w-full border rounded p-1.5 text-sm">
+                        <option value="Curto Prazo (1-2 meses)">Curto Prazo</option>
+                        <option value="Médio Prazo (3-4 meses)">Médio Prazo</option>
+                        <option value="Longo Prazo (5-6 meses)">Longo Prazo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="adicionarMetaPEI()" class="bg-teal-700 hover:bg-teal-800 text-white rounded px-5 py-2 text-sm font-semibold transition-colors">
+                    + Adicionar Meta ao PEI
+                </button>
+            </div>
+
+            <!-- Tabela de Metas do PEI -->
+            <div class="overflow-x-auto pt-2">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700">
+                            <th class="p-2 border">Área</th>
+                            <th class="p-2 border">Objetivo / Meta</th>
+                            <th class="p-2 border">Suporte Inicial</th>
+                            <th class="p-2 border">Prazo</th>
+                            <th class="p-2 border">Status de Aquisição</th>
+                            <th class="p-2 border text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaMetasPei"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: MANEJO DE REFORÇO E ESTRATÉGIAS -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">3. Esquema de Reforço e Protocolo de Dicas</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Itens Reforçadores Identificados (Operação Motivacional)</label>
+                    <textarea id="peiReforçadores" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Brinquedo sonoro, bolhas de sabão, acesso a balanço, reforço social entusiasmado..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Estratégias para Redução do Custo da Resposta & Fuga</label>
+                    <textarea id="peiEstrategiasFuga" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Fracionar tarefas em 2 minutos, alternar alta e baixa demanda, pareamento constante..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="salvarPEI()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-colors">
+                    Salvar Plano de Ensino (PEI)
+                </button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: HISTÓRICO DE PEIs CADASTRADOS -->
+        <section class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <h2 class="text-base font-bold text-teal-900 border-b pb-2">4. Histórico de Planos de Ensino Criados</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700">
+                            <th class="p-2 border">Data Início</th>
+                            <th class="p-2 border">Paciente</th>
+                            <th class="p-2 border">Metas Cadastradas</th>
+                            <th class="p-2 border">Reavaliação</th>
+                            <th class="p-2 border text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaHistoricoPei">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="script-pei.js"></script>
+</body>
+</html>
