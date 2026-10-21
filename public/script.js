@@ -16,8 +16,10 @@ const db = getFirestore(app);
 
 let registrosABC = [];
 let chartInstance = null;
-let profissionais = JSON.parse(localStorage.getItem('lista_profissionais') || '["Psicólogo Bruno Costa Feijó Xavier (CRP RS 07/42923)"]');
-let monitores = JSON.parse(localStorage.getItem('lista_monitores') || '["Nenhum / Sem Monitor", "Monitor 01"]');
+
+// Lista inicial simplificada apenas com nomes
+let profissionais = JSON.parse(localStorage.getItem('lista_profissionais') || '["Bruno Xavier"]');
+let monitores = JSON.parse(localStorage.getItem('lista_monitores') || '["Nenhum / Sem Monitor"]');
 
 window.carregarListasEquipe = function() {
     const selProf = document.getElementById('selectProfissional');
@@ -35,7 +37,7 @@ window.carregarListasEquipe = function() {
 };
 
 window.cadastrarProfissional = function() {
-    const nome = prompt("Digite o nome do Profissional:");
+    const nome = prompt("Digite apenas o NOME do Profissional:");
     if (nome && nome.trim() !== "") {
         profissionais.push(nome.trim());
         localStorage.setItem('lista_profissionais', JSON.stringify(profissionais));
@@ -45,7 +47,7 @@ window.cadastrarProfissional = function() {
 };
 
 window.cadastrarMonitor = function() {
-    const nome = prompt("Digite o nome do Monitor:");
+    const nome = prompt("Digite apenas o NOME do Monitor:");
     if (nome && nome.trim() !== "") {
         monitores.push(nome.trim());
         localStorage.setItem('lista_monitores', JSON.stringify(monitores));
@@ -123,8 +125,8 @@ window.salvarSessao = async function() {
     const sessao = document.getElementById('numSessao').value;
     const data = document.getElementById('dataSessao').value;
 
-    if (!sessao || !data) {
-        alert('Preencha o Número da Sessão e a Data antes de salvar.');
+    if (!sessao || !data || !paciente) {
+        alert('Preencha o Nome do Paciente, o Número da Sessão e a Data.');
         return;
     }
 
@@ -144,8 +146,8 @@ window.salvarSessao = async function() {
         medicacao: medicacaoEl ? medicacaoEl.value : 'Não informada',
         sensorial: Array.from(sensorialEls).map(el => el.value),
         vestuario: Array.from(vestuarioEls).map(el => el.value),
-        auto: document.getElementById('qtdAuto').value,
-        hetero: document.getElementById('qtdHetero').value,
+        auto: parseInt(document.getElementById('qtdAuto').value) || 0,
+        hetero: parseInt(document.getElementById('qtdHetero').value) || 0,
         intervencao: document.getElementById('intervencaoEficaz').value,
         eventosABC: registrosABC,
         anotacoes: document.getElementById('anotacoesClinicas').value
@@ -153,11 +155,11 @@ window.salvarSessao = async function() {
 
     try {
         await setDoc(doc(db, "sessoes_abc", `sessao_${sessao}`), dadosSessao);
-        alert(`Sessão Nº ${sessao} salva no Firebase Firestore!`);
+        alert(`Sessão Nº ${sessao} salva no Firebase Firestore com sucesso!`);
         await carregarHistoricoFirestore();
     } catch (e) {
         console.error("Erro ao salvar no Firestore: ", e);
-        alert("Erro ao salvar no banco de dados em nuvem.");
+        alert("Erro ao salvar no banco de dados em nuvem. Verifique as Regras do Firestore.");
     }
 };
 
@@ -178,7 +180,7 @@ async function carregarHistoricoFirestore() {
         window.historicoLocal = historico;
         renderizarGrafico(historico);
     } catch (e) {
-        console.error("Erro ao carregar histórico: ", e);
+        console.error("Erro ao carregar histórico do Firestore: ", e);
     }
 }
 
@@ -202,8 +204,8 @@ window.carregarEvolucaoSelecionada = function() {
         document.querySelectorAll('.sensorial').forEach(el => { el.checked = dados.sensorial.includes(el.value); });
         document.querySelectorAll('.vestuario').forEach(el => { el.checked = dados.vestuario.includes(el.value); });
 
-        document.getElementById('qtdAuto').value = dados.auto;
-        document.getElementById('qtdHetero').value = dados.hetero;
+        document.getElementById('qtdAuto').value = dados.auto || 0;
+        document.getElementById('qtdHetero').value = dados.hetero || 0;
         document.getElementById('intervencaoEficaz').value = dados.intervencao;
         document.getElementById('anotacoesClinicas').value = dados.anotacoes;
 
@@ -228,32 +230,51 @@ window.limparFormulario = function() {
 };
 
 function renderizarGrafico(historico) {
+    const canvas = document.getElementById('graficoEvolucao');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
     const labelsSessoes = historico.map(h => `Sessão ${h.sessao}`);
     const dadosAuto = historico.map(h => parseInt(h.auto || 0));
     const dadosHetero = historico.map(h => parseInt(h.hetero || 0));
 
-    const ctx = document.getElementById('graficoEvolucao').getContext('2d');
     if (chartInstance) chartInstance.destroy();
 
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labelsSessoes.length ? labelsSessoes : ['Sem Registros'],
-            datasets: [{
-                label: 'Automutilação',
-                data: dadosAuto.length ? dadosAuto : [0],
-                borderColor: 'rgb(13, 148, 136)',
-                backgroundColor: 'rgba(13, 148, 136, 0.1)',
-                fill: true
-            }, {
-                label: 'Heteroagressividade',
-                data: dadosHetero.length ? dadosHetero : [0],
-                borderColor: 'rgb(225, 29, 72)',
-                backgroundColor: 'rgba(225, 29, 72, 0.1)',
-                fill: true
-            }]
+            labels: labelsSessoes.length ? labelsSessoes : ['Sem Dados'],
+            datasets: [
+                {
+                    label: 'Automutilação (Pulso/Braço)',
+                    data: dadosAuto.length ? dadosAuto : [0],
+                    borderColor: 'rgb(13, 148, 136)',
+                    backgroundColor: 'rgba(13, 148, 136, 0.15)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                },
+                {
+                    label: 'Heteroagressividade (Outros)',
+                    data: dadosHetero.length ? dadosHetero : [0],
+                    borderColor: 'rgb(225, 29, 72)',
+                    backgroundColor: 'rgba(225, 29, 72, 0.15)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }
+            ]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                }
+            }
+        }
     });
 }
 

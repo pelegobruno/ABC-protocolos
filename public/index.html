@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sessão ABC & Evolução | Psicologia</title>
-    <!-- Ícone do Navegador (Favicon em PNG) -->
-    <link rel="icon" type="image/png" href="/tea-icon.png">
+    <!-- Ícone do Navegador -->
+    <link rel="icon" type="image/png" href="tea-icon.png">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,7 +16,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans">
 
-    <!-- Cabeçalho Institucional -->
+    <!-- Cabeçalho Institucional Sóbrio -->
     <header class="bg-teal-900 text-white p-4 shadow-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
             <div>
@@ -65,13 +65,13 @@
                 <div>
                     <label class="block text-xs font-semibold text-teal-900 mb-1">Profissional Responsável</label>
                     <select id="selectProfissional" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-teal-600">
-                        <!-- Inserido dinamicamente via JS -->
+                        <!-- Preenchido via JS / Firestore -->
                     </select>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-teal-900 mb-1">Monitor Acompanhante</label>
                     <select id="selectMonitor" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-teal-600">
-                        <!-- Inserido dinamicamente via JS -->
+                        <!-- Preenchido via JS / Firestore -->
                     </select>
                 </div>
             </div>
@@ -83,11 +83,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 mb-4">
                 <div class="md:col-span-2">
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Paciente</label>
-                    <input type="text" id="paciente" value="João" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-600">
+                    <input type="text" id="paciente" placeholder="Nome do paciente" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-600">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nº da Sessão</label>
-                    <input type="number" id="numSessao" class="w-full border rounded-lg p-2 text-sm">
+                    <input type="number" id="numSessao" placeholder="Ex: 1" class="w-full border rounded-lg p-2 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Data</label>
@@ -218,12 +218,12 @@
                 <div class="space-y-4">
                     <h3 class="font-semibold text-sm text-slate-700">Total de Episódios Observados</h3>
                     <div class="flex items-center justify-between bg-slate-50 p-3 rounded border">
-                        <span class="text-sm">Automutilação (Pulso/Braço):</span>
-                        <input type="number" id="qtdAuto" value="0" class="w-20 border rounded p-1 text-center font-bold">
+                        <span class="text-sm font-medium text-teal-900">Automutilação (Pulso/Braço):</span>
+                        <input type="number" id="qtdAuto" value="0" min="0" class="w-20 border rounded p-1 text-center font-bold text-teal-900">
                     </div>
                     <div class="flex items-center justify-between bg-slate-50 p-3 rounded border">
-                        <span class="text-sm">Heteroagressividade (Outros):</span>
-                        <input type="number" id="qtdHetero" value="0" class="w-20 border rounded p-1 text-center font-bold">
+                        <span class="text-sm font-medium text-rose-900">Heteroagressividade (Outros):</span>
+                        <input type="number" id="qtdHetero" value="0" min="0" class="w-20 border rounded p-1 text-center font-bold text-rose-900">
                     </div>
 
                     <h3 class="font-semibold text-sm text-slate-700 pt-2">Intervenção de Maior Eficácia</h3>
@@ -247,19 +247,19 @@
             </div>
         </section>
 
-        <!-- SEÇÃO 4: GRÁFICO DINÂMICO DE EVOLUÇÃO E MARCOS DO PACIENTE -->
+        <!-- SEÇÃO 4: GRÁFICO DINÂMICO DE EVOLUÇÃO (AUTOMUTILAÇÃO E HETEROAGRESSIVIDADE) -->
         <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-            <h2 class="text-lg font-bold text-teal-900 mb-4 border-b pb-2">4. Acompanhamento de Evolução e Marcos do Paciente</h2>
+            <h2 class="text-lg font-bold text-teal-900 mb-4 border-b pb-2">4. Acompanhamento de Evolução (Automutilação vs. Heteroagressividade)</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                <div>
-                    <canvas id="graficoEvolucao" width="400" height="200"></canvas>
+                <div class="bg-slate-50 p-3 rounded-lg border">
+                    <canvas id="graficoEvolucao" style="max-height: 280px;"></canvas>
                 </div>
                 <div class="bg-slate-50 p-4 rounded-lg border space-y-2">
-                    <h3 class="font-bold text-sm text-teal-900 mb-2">Status dos Marcos da Avaliação</h3>
+                    <h3 class="font-bold text-sm text-teal-900 mb-2">Status e Marcos de Comparação</h3>
                     <ul id="listaMarcos" class="text-xs space-y-2 text-slate-700">
-                        <li><strong>Redução de Frequência:</strong> Monitoramento gráfico contínuo dos episódios de morder.</li>
-                        <li><strong>Comunicação Funcional (FCT):</strong> Transição com uso do cartão/botão de pausa.</li>
-                        <li><strong>Regulação Sensorial:</strong> Acomodação de vestuário e estímulos do setting.</li>
+                        <li><strong>Automutilação (Linha Verde/Teal):</strong> Registra a quantidade de episódios de autoagressão no pulso/braço por sessão.</li>
+                        <li><strong>Heteroagressividade (Linha Vermelha):</strong> Monitora episódios de agressão direcionada a terceiros/terapeuta.</li>
+                        <li><strong>Análise Longitudinal:</strong> O gráfico plota automaticamente cada nova sessão salva para comparar a redução do comportamento-alvo.</li>
                     </ul>
                 </div>
             </div>
@@ -267,7 +267,7 @@
 
     </main>
 
-    <!-- Script com suporte a módulos Firebase -->
+    <!-- Script de Integração do Firebase -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
