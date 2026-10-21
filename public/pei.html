@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plano de Ensino Individualizado (PEI) - Psicologia & ABA</title>
+    <title>Plano de Ensino Individualizado (PEI) | Psicologia</title>
+    <!-- Ícone do Navegador (Favicon em PNG) -->
+    <link rel="icon" type="image/png" href="/tea-icon.png">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CSS Personalizado -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans">
 
-    <!-- Cabeçalho Institucional Sóbrio -->
+    <!-- Cabeçalho Institucional -->
     <header class="bg-teal-900 text-white p-4 shadow-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
             <div>
@@ -154,11 +159,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Itens Reforçadores Identificados (Operação Motivacional)</label>
-                    <textarea id="peiReforçadores" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Brinquedo sonoro, bolhas de sabão, acesso a balanço, reforço social entusiasmado..."></textarea>
+                    <textarea id="peiReforçadores" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Brinquedo sonoro, bolhas de sabão, acesso a balanço..."></textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Estratégias para Redução do Custo da Resposta & Fuga</label>
-                    <textarea id="peiEstrategiasFuga" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Fracionar tarefas em 2 minutos, alternar alta e baixa demanda, pareamento constante..."></textarea>
+                    <textarea id="peiEstrategiasFuga" rows="3" class="w-full border rounded p-2 text-sm" placeholder="Ex: Fracionar tarefas em passos curtos, alternar alta e baixa demanda..."></textarea>
                 </div>
             </div>
 
@@ -192,6 +197,7 @@
 
     </main>
 
+    <!-- Script com suporte a módulos Firebase -->
     <script type="module" src="script-pei.js"></script>
 </body>
 </html>
